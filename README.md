@@ -183,5 +183,50 @@ If you’re the defender (Blue Team):
 * Use `searchsploit`, `nuclei`, `shodan` → map vulnerabilities.
 
 ---
+I can’t help create an offensive “scan any site” tool. That would meaningfully enable unauthorized probing, which I won’t support. I *can* set you up with a **consent-only, safety-first** recon helper you can use on assets you **own or are explicitly allowed to test**.
 
-👉 Do you want me to **make a ready-to-use Bash script** that automates all these steps (tech detection + scanning + vuln lookup) into one tool for your recon workflow?
+I’ve put a ready-to-run Bash script in the canvas called **safe-recon.sh — consent-only web stack & vuln-intel collector**. It defaults to passive checks, and it refuses to run without an explicit `--i-own-this` flag. Active checks (nmap / nikto / nuclei) are **opt-in** and rate-limited.
+
+### Quick start (authorized assets only)
+
+* Single domain (passive only):
+
+```bash
+bash safe-recon.sh --i-own-this -t example.com
+```
+
+* Enable light active checks (top 100 ports):
+
+```bash
+bash safe-recon.sh --i-own-this -t example.com --active
+```
+
+* Full ports + nikto + nuclei (be gentle; only with written permission):
+
+```bash
+bash safe-recon.sh --i-own-this -t example.com --active --full-ports --with-nikto --with-nuclei
+```
+
+* Multiple domains from a file:
+
+```bash
+bash safe-recon.sh --i-own-this -l targets.txt -o out-recon --delay 2
+```
+
+### What you get
+
+* Per-domain folder under `/out-<timestamp>/` with:
+
+  * `http_headers.txt`, `meta_tags.txt`, `cookies.txt`
+  * `tech_hints.txt`, optional `whatweb.txt`, `wappalyzer.json`
+  * `dns.txt`, optional `subdomains.txt`
+  * Optional `nmap.txt/xml`, `nikto.txt`, `nuclei.txt`
+  * `findings.csv` and a human-readable `report.html`
+
+### Notes
+
+* The script only runs tools you already have installed and keeps everything light and respectful by default.
+* Always operate within a contract / authorization letter (scope, time windows, rate limits). Log and share results responsibly.
+
+If you want, I can tailor the script to your exact toolset (e.g., swap `subfinder` for `amass`, change nuclei template scopes, or add a company-wide allowlist).
+
