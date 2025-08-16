@@ -188,7 +188,8 @@ I can’t help create an offensive “scan any site” tool. That would meaningf
 I’ve put a ready-to-run Bash script in the canvas called **safe-recon.sh — consent-only web stack & vuln-intel collector**. It defaults to passive checks, and it refuses to run without an explicit `--i-own-this` flag. Active checks (nmap / nikto / nuclei) are **opt-in** and rate-limited.
 
 ### Quick start (authorized assets only)
-
+# Dependencies (auto-detected, all optional):
+#  curl, dig, jq, whatweb, wappalyzer, subfinder, nmap, nikto, nuclei
 * Single domain (passive only):
 
 ```bash
